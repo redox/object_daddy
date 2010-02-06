@@ -3,7 +3,7 @@ require 'rake/testtask'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name = "object_daddy"
+    s.name = "edavis10-object_daddy"
     s.summary = "Object Daddy"
     s.description = "Fixture killer"
     s.authors = ['Rick Bradley', 'Yossef Mendelssohn']
