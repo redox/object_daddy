@@ -174,11 +174,11 @@ module ObjectDaddy
         (presence_validated_attributes.keys - args.keys).each {|a| req[a.to_s] = true } # find attributes required by validates_presence_of not already set
         
         belongs_to_associations = reflect_on_all_associations(:belongs_to).to_a
-        missing = belongs_to_associations.select { |a|  req[a.name.to_s] or req[a.primary_key_name.to_s] }
+        missing = belongs_to_associations.select { |a|  req[a.name.to_s] or req[a.foreign_key.to_s] }
         if create_scope = scope(:create)
-          missing.reject! { |a|   create_scope.call.include?(a.primary_key_name) }
+          missing.reject! { |a|   create_scope.call.include?(a.foreign_key) }
         end
-        missing.reject! { |a|  [a.name, a.primary_key_name].any? { |n|  args.stringify_keys.include?(n.to_s) } }
+        missing.reject! { |a|  [a.name, a.foreign_key].any? { |n|  args.stringify_keys.include?(n.to_s) } }
         missing.each {|a| args[a.name] = a.class_name.constantize.generate }
       end
     end
