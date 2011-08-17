@@ -176,7 +176,7 @@ module ObjectDaddy
         belongs_to_associations = reflect_on_all_associations(:belongs_to).to_a
         missing = belongs_to_associations.select { |a|  req[a.name.to_s] or req[a.primary_key_name.to_s] }
         if create_scope = scope(:create)
-          missing.reject! { |a|   create_scope.include?(a.primary_key_name) }
+          missing.reject! { |a|   create_scope.call.include?(a.primary_key_name) }
         end
         missing.reject! { |a|  [a.name, a.primary_key_name].any? { |n|  args.stringify_keys.include?(n.to_s) } }
         missing.each {|a| args[a.name] = a.class_name.constantize.generate }
